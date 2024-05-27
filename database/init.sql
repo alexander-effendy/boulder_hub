@@ -1,4 +1,4 @@
--- postgres server isn't persistent yet
+-- postgres is locally persistent
 
 -- Switch to the boulder_hub database
 \c boulder_hub

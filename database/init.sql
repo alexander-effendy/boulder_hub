@@ -1,4 +1,4 @@
--- postgres server isn't persistent yet
+-- postgres is locally persistent
 
 -- Switch to the boulder_hub database
 \c boulder_hub
@@ -6,7 +6,6 @@
 -- admin
 CREATE USER alexandereffendy WITH PASSWORD 'testdatabase';
 GRANT ALL PRIVILEGES ON DATABASE instagram TO myuser;
-
 
 -- drop if exists
 DROP TABLE IF EXISTS comments;

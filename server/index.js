@@ -4,7 +4,7 @@ const pool = require('./db');
 const app = express();
 app.use(express.json());
 
-// Route to add a friend
+// Create user
 app.post('/create_account', async (req, res) => {
   const { username, email, password } = req.body;
   try {
@@ -14,6 +14,19 @@ app.post('/create_account', async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).send('Error creating account');
+  }
+});
+
+// Create gym
+app.post('/create_gym', async (req, res) => {
+  const { name, location } = req.body;
+  try {
+    const query = 'INSERT INTO gyms (name, location) VALUES ($1, $2)';
+    await pool.query(query, [name, location]);
+    res.status(200).send('Gym created successfully');
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error creating gym');
   }
 });
 
@@ -31,6 +44,13 @@ curl -X POST http://localhost:3000/create_account \
     "username": "alex",
     "email": "alex@example.com",
     "password": "password123"
+  }'
+
+curl -X POST http://localhost:3000/create_gym \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "9 Degrees Waterloo",
+    "location": "Sydney"
   }'
 
 */

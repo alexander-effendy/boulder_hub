@@ -7,7 +7,6 @@
 CREATE USER alexandereffendy WITH PASSWORD 'testdatabase';
 GRANT ALL PRIVILEGES ON DATABASE instagram TO myuser;
 
-
 -- drop if exists
 DROP TABLE IF EXISTS comments;
 DROP TABLE IF EXISTS pictures;

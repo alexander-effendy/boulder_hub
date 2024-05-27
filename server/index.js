@@ -22,3 +22,15 @@ const port = 3000;
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
+
+/*
+
+curl -X POST http://localhost:3000/create_account \
+  -H "Content-Type: application/json" \
+  -d '{
+    "username": "alex",
+    "email": "alex@example.com",
+    "password": "password123"
+  }'
+
+*/

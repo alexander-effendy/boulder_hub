@@ -1,2 +1,17 @@
-to run .sql script: 
-psql -f setup_beerdb.sql postgres
+logs
+*.log
+npm-debug.log*
+
+node_modules/
+
+.npm
+
+.node_repl_history
+
+.env
+
+.vscode/
+.idea/
+.DS_Store
+
+*.DS_Store

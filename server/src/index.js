@@ -107,6 +107,7 @@ const passport = require('passport');
 const dotenv = require('dotenv');
 const auth = require('./auth'); // Import the auth routes
 const pool = require('../db'); // Import your PostgreSQL pool configuration
+const { append } = require('vary');
 
 dotenv.config();
 
@@ -131,7 +132,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use('/auth', auth); // Use the auth routes
+app.use('/auth', auth); // use this first
 
 app.get('/', (req, res) => {
   res.send('Welcome to the Boulder Hub app!');
@@ -155,29 +156,15 @@ app.get('/profile', (req, res) => {
 // -------------------------------- GYM -------------------------------- //
 // ---------------------------------------------------------------------- //
 
-// app.post('/creategym', (req, res) => {
-//   if (req.isAuthenticated()) {
-//     const { name, location } = req.body;
-//     if (!name || !location) return res.status(400).send('Name and location are required');
+app.post('/gym', (req, res) => {
+  console.log('here is req: ', req);
 
-//     const query = 'INSERT INTO Gyms (name, location) VALUES ($1, $2) RETURNING *';
-//     pool.query(query, [name, location], (err, result) => {
-//       if (err) {
-//         console.error(err);
-//         return res.status(500).send('Error creating gym');
-//       }
-//       return res.status(201).json(result.rows[0]);
-//     });
-
-//     res.json(req.user);
-//   } else {
-//     return res.status(401).send('Unauthorized');
-//   }
-// });
-
-app.post('/creategym', (req, res) => {
   if (!req.isAuthenticated()) {
     return res.status(401).send('Unauthorized');
+  }
+
+  if (req.user.role !== 'admin') {
+    return res.status(403).send('Forbidden: Only admins can create gyms');
   }
 
   const { name, location } = req.body;
@@ -195,6 +182,8 @@ app.post('/creategym', (req, res) => {
     res.status(201).json(result.rows[0]);
   });
 });
+
+app.delete('/gym')
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {

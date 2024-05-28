@@ -1,5 +1,3 @@
-to run .sql script: 
-
 TERMINAL 1:
 1. go to database/
 2. run: psql postgres (this will take you into psql mode)

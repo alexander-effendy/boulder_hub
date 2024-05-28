@@ -1,0 +1,14 @@
+connect.sid=s%3AG79ruUzPfV3cEZsBzDc874RiGEhM2B9C.v3Ji8jXAeuoDhUIr7IZoEw4OLUXqQ%2FVFlTkScOSTyps
+
+
+curl -X GET http://localhost:3000/profile \
+  -H "Cookie: connect.sid=s%3AG79ruUzPfV3cEZsBzDc874RiGEhM2B9C.v3Ji8jXAeuoDhUIr7IZoEw4OLUXqQ%2FVFlTkScOSTyps"
+
+
+curl -X POST http://localhost:3000/creategym \
+  -H "Content-Type: application/json" \
+  -H "Cookie: connect.sid=s%3AG79ruUzPfV3cEZsBzDc874RiGEhM2B9C.v3Ji8jXAeuoDhUIr7IZoEw4OLUXqQ%2FVFlTkScOSTyps" \
+  -d '{
+    "name": "9D Alexandria",
+    "location": "Alexandria near Mascot"
+  }'

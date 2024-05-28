@@ -137,7 +137,10 @@ app.get('/', (req, res) => {
   res.send('Welcome to the Boulder Hub app!');
 });
 
-// Protected route to get user profile
+// ---------------------------------------------------------------------- //
+// -------------------------------- USER -------------------------------- //
+// ---------------------------------------------------------------------- //
+
 app.get('/profile', (req, res) => {
   console.log('Authenticated:', req.isAuthenticated());
   // console.log(req);
@@ -148,8 +151,50 @@ app.get('/profile', (req, res) => {
   }
 });
 
-// curl localhost:3000/auth
-// curl localhost:3000/profile
+// ---------------------------------------------------------------------- //
+// -------------------------------- GYM -------------------------------- //
+// ---------------------------------------------------------------------- //
+
+// app.post('/creategym', (req, res) => {
+//   if (req.isAuthenticated()) {
+//     const { name, location } = req.body;
+//     if (!name || !location) return res.status(400).send('Name and location are required');
+
+//     const query = 'INSERT INTO Gyms (name, location) VALUES ($1, $2) RETURNING *';
+//     pool.query(query, [name, location], (err, result) => {
+//       if (err) {
+//         console.error(err);
+//         return res.status(500).send('Error creating gym');
+//       }
+//       return res.status(201).json(result.rows[0]);
+//     });
+
+//     res.json(req.user);
+//   } else {
+//     return res.status(401).send('Unauthorized');
+//   }
+// });
+
+app.post('/creategym', (req, res) => {
+  if (!req.isAuthenticated()) {
+    return res.status(401).send('Unauthorized');
+  }
+
+  const { name, location } = req.body;
+
+  if (!name || !location) {
+    return res.status(400).send('Name and location are required');
+  }
+
+  const query = 'INSERT INTO Gyms (name, location) VALUES ($1, $2) RETURNING *';
+  pool.query(query, [name, location], (err, result) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).send('Error creating gym');
+    }
+    res.status(201).json(result.rows[0]);
+  });
+});
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {

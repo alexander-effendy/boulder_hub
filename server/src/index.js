@@ -223,7 +223,32 @@ app.post('/boulder', (req, res) => {
     }
     res.status(201).json(result.rows[0]);
   });
-})
+});
+
+app.delete('/boulder', (req, res) => {
+  if (!req.isAuthenticated()) {
+    return res.status(401).send('Unauthorized');
+  }
+
+  if (req.user.role !== 'admin') {
+    return res.status(403).send('Forbidden: Only admins can create gyms');
+  }
+
+  const { boulder_id } = req.body;
+
+  if (!boulder_id) {
+    return res.status(400).send('WARNING: Boulder id to be deleted cannot be found');
+  }
+
+  const query = 'DELETE FROM boulders where boulder_id = $1';
+  pool.query(query, [boulder_id], (err, result) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).send('Error removing boulder from the gym');
+    }
+    res.status(200).send('Boulder removed successfully');
+  });
+});
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {

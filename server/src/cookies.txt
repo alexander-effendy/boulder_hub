@@ -1,16 +1,28 @@
-connect.sid=s%3A4XP-vmJsDxlz4utOy5z7QYTykUkzaZSO.kJgs8Oj2qYPU8ZFPJHDpkQFKJ2X%2BVDLckmQRW48OOcA
+s%3AWgshIkk_wSTVSPapc8n0KXDj-j9P1P0Q.WWiG2whUoIuHloLuBtIJQyzqhhvmw3iu5gPDeYckRks
 
 
 curl -X GET http://localhost:3000/profile \
-  -H "Cookie: connect.sid=s%3A4XP-vmJsDxlz4utOy5z7QYTykUkzaZSO.kJgs8Oj2qYPU8ZFPJHDpkQFKJ2X%2BVDLckmQRW48OOcA"
+  -H "Cookie: connect.sid=s%3AWgshIkk_wSTVSPapc8n0KXDj-j9P1P0Q.WWiG2whUoIuHloLuBtIJQyzqhhvmw3iu5gPDeYckRks"
 
 
 curl -X POST http://localhost:3000/gym \
   -H "Content-Type: application/json" \
-  -H "Cookie: connect.sid=s%3A4XP-vmJsDxlz4utOy5z7QYTykUkzaZSO.kJgs8Oj2qYPU8ZFPJHDpkQFKJ2X%2BVDLckmQRW48OOcA" \
+  -H "Cookie: connect.sid=s%3AWgshIkk_wSTVSPapc8n0KXDj-j9P1P0Q.WWiG2whUoIuHloLuBtIJQyzqhhvmw3iu5gPDeYckRks" \
   -d '{
     "name": "9D Parramatta",
     "location": "Parramatta near Burwood"
+  }'
+
+add boulder into gym:
+
+curl -X POST http://localhost:3000/boulder \
+  -H "Content-Type: application/json" \
+  -H "Cookie: connect.sid=s%3AWgshIkk_wSTVSPapc8n0KXDj-j9P1P0Q.WWiG2whUoIuHloLuBtIJQyzqhhvmw3iu5gPDeYckRks" \
+  -d '{
+    "gym_id": 1,
+    "color": "Purple",
+    "grade": "V6",
+    "description": "Alex will send this tomorrow"
   }'
 
 

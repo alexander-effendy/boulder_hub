@@ -152,8 +152,22 @@ app.get('/profile', (req, res) => {
   }
 });
 
+app.get('/alluser', (req, res) => {
+  if (req.isAuthenticated()) {
+    const query = 'SELECT * FROM Users';
+    pool.query(query, (err, result) => {
+      if (err) {
+        return res.status(500).send('Error in retrieving users');
+      }
+      res.status(200).json(result.rows);
+    })
+  } else {
+    res.status(401).send('Unauthorized');
+  }
+})
+
 // ---------------------------------------------------------------------- //
-// -------------------------------- GYM -------------------------------- //
+// -------------------------------- GYM --------------------------------- //
 // ---------------------------------------------------------------------- //
 
 app.post('/gym', (req, res) => {
@@ -183,7 +197,33 @@ app.post('/gym', (req, res) => {
   });
 });
 
-app.delete('/gym')
+// ---------------------------------------------------------------------- //
+// ------------------------------ BOULDER ------------------------------- //
+// ---------------------------------------------------------------------- //
+
+app.post('/boulder', (req, res) => {
+  if (!req.isAuthenticated()) {
+    return res.status(401).send('Unauthorized');
+  }
+
+  if (req.user.role !== 'admin') {
+    return res.status(403).send('Forbidden: Only admins can create gyms');
+  }
+
+  const { gym_id, color, grade, description } = req.body;
+  if (!gym_id || !color || !grade) {
+    return res.status(400).send('WARNING: All inputs need to be filled in');
+  }
+
+  const query = 'INSERT INTO boulders (gym_id, color, grade, description) VALUES ($1, $2, $3, $4) RETURNING *';
+  pool.query(query, [gym_id, color, grade, description], (err, result) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).send('Error adding boulder into the gym');
+    }
+    res.status(201).json(result.rows[0]);
+  });
+})
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {

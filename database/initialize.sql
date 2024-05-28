@@ -3,23 +3,20 @@
 -- Switch to the boulder_hub database
 \c boulder_hub
 
--- admin
-CREATE USER alexandereffendy WITH PASSWORD 'testdatabase';
-GRANT ALL PRIVILEGES ON DATABASE instagram TO myuser;
-
 -- drop if exists
 DROP TABLE IF EXISTS comments;
 DROP TABLE IF EXISTS pictures;
 DROP TABLE IF EXISTS videos;
 DROP TABLE IF EXISTS boulders;
 DROP TABLE IF EXISTS gyms;
-DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS users;xj
 
 CREATE TABLE Users (
     user_id SERIAL PRIMARY KEY,
-    username VARCHAR(50) UNIQUE NOT NULL,
-    email VARCHAR(100) UNIQUE NOT NULL,
-    password VARCHAR(100) NOT NULL,
+    oauth_id VARCHAR(255) UNIQUE NOT NULL,
+    username VARCHAR(50) NOT NULL,
+    email VARCHAR(100) NOT NULL,
+    role VARCHAR(20) DEFAULT 'user',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 

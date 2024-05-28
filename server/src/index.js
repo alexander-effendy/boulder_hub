@@ -19,6 +19,9 @@ WORKING ROUTES SO FAR:
 4. Admin can add boulder into gym
 5. Admin can remove boulder from gym
 
+6. User can post comment on a boulder
+7. User can delete their own comment from a boulder
+
 */
 
 dotenv.config();

@@ -160,6 +160,67 @@ app.delete('/boulder', (req, res) => {
   });
 });
 
+// ---------------------------------------------------------------------- //
+// ------------------------------ COMMENT ------------------------------- //
+// ---------------------------------------------------------------------- //
+
+app.post('/comment', (req, res) => {
+  if (!req.isAuthenticated()) {
+    return res.status(401).send('Unauthorized');
+  }
+
+  const { boulder_id, content } = req.body;
+  if (!boulder_id || !content) {
+    return res.status(400).send('User inputs fail to satisfy comment posting');
+  }
+
+  const query = 'INSERT INTO comments (boulder_id, user_id, content) VALUES ($1, $2, $3) RETURNING *';
+  pool.query(query, [boulder_id, req.user.user_id, content], (err, result) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).send('Internal Error: Fail to add comment for this boulder');
+    }
+    res.status(200).json(result.rows[0]);
+  });
+});
+
+app.delete('/comment', (req, res) => {
+  if (!req.isAuthenticated()) {
+    return res.status(401).send('Unauthorized');
+  }
+
+  const { comment_id } = req.body;
+
+  const userId = req.user.user_id;
+
+  const searchCommentQuery = 'select * from comments where comment_id = $1';
+  pool.query(searchCommentQuery, [comment_id], (err, result) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).send('Internal server error');
+    }
+
+    if (result.rows.length === 0) {
+      return res.status(404).send('Not found: Comment not found');
+    }
+
+    const comment = result.rows[0];
+    console.log(comment);
+    if (Number(comment.user_id) !== Number(userId)) {
+      return res.status(403).send('Forbidden: This comment was not authored by user')
+    }
+
+    const deleteQuery = 'DELETE FROM comments where comment_id = $1';
+    pool.query(deleteQuery, [comment_id], (err, result) => {
+      if (err) {
+        console.error('Internal Server Error');
+        return res.status(500).send('Internal Server Error');
+      }
+      return res.status(200).send('Comment deleted successfully');
+    })
+  })
+});
+
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);

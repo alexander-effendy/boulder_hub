@@ -1,13 +1,13 @@
-s%3AtDYSa-SRBunczIZU6aFcWobBlFE1dtrx.9JRq0ngSv8WFC%2B7mW%2FgV4UGXMH3qoZu4gQL845uE45U
+s%3A-M3muUZ3GqsxrNTYM9tukzCzcFtffjpT.POuHUL5jH1od5ptm%2B7qH0UktZNYBIloALn901CQ9XGU
 
 
 curl -X GET http://localhost:3000/profile \
-  -H "Cookie: connect.sid=s%3AtDYSa-SRBunczIZU6aFcWobBlFE1dtrx.9JRq0ngSv8WFC%2B7mW%2FgV4UGXMH3qoZu4gQL845uE45U"
+  -H "Cookie: connect.sid=s%3A-M3muUZ3GqsxrNTYM9tukzCzcFtffjpT.POuHUL5jH1od5ptm%2B7qH0UktZNYBIloALn901CQ9XGU"
 
 
 curl -X POST http://localhost:3000/gym \
   -H "Content-Type: application/json" \
-  -H "Cookie: connect.sid=s%3AtDYSa-SRBunczIZU6aFcWobBlFE1dtrx.9JRq0ngSv8WFC%2B7mW%2FgV4UGXMH3qoZu4gQL845uE45U" \
+  -H "Cookie: connect.sid=s%3A-M3muUZ3GqsxrNTYM9tukzCzcFtffjpT.POuHUL5jH1od5ptm%2B7qH0UktZNYBIloALn901CQ9XGU" \
   -d '{
     "name": "9D Parramatta",
     "location": "Parramatta near Burwood"
@@ -17,7 +17,7 @@ add boulder into gym:
 
 curl -X POST http://localhost:3000/boulder \
   -H "Content-Type: application/json" \
-  -H "Cookie: connect.sid=s%3AtDYSa-SRBunczIZU6aFcWobBlFE1dtrx.9JRq0ngSv8WFC%2B7mW%2FgV4UGXMH3qoZu4gQL845uE45U" \
+  -H "Cookie: connect.sid=s%3A-M3muUZ3GqsxrNTYM9tukzCzcFtffjpT.POuHUL5jH1od5ptm%2B7qH0UktZNYBIloALn901CQ9XGU" \
   -d '{
     "gym_id": 1,
     "color": "Purple",
@@ -27,10 +27,32 @@ curl -X POST http://localhost:3000/boulder \
 
 curl -X DELETE http://localhost:3000/boulder \
   -H "Content-Type: application/json" \
-  -H "Cookie: connect.sid=s%3AtDYSa-SRBunczIZU6aFcWobBlFE1dtrx.9JRq0ngSv8WFC%2B7mW%2FgV4UGXMH3qoZu4gQL845uE45U" \
+  -H "Cookie: connect.sid=s%3A-M3muUZ3GqsxrNTYM9tukzCzcFtffjpT.POuHUL5jH1od5ptm%2B7qH0UktZNYBIloALn901CQ9XGU" \
   -d '{
-    "boulder_id": 1
+    "boulder_id": 2,
+    "user_id": 1,
+    " 
   }'
+
+// posting comment
+
+curl -X POST http://localhost:3000/comment \
+  -H "Content-Type: application/json" \
+  -H "Cookie: connect.sid=s%3A-M3muUZ3GqsxrNTYM9tukzCzcFtffjpT.POuHUL5jH1od5ptm%2B7qH0UktZNYBIloALn901CQ9XGU" \
+  -d '{
+    "boulder_id": 2,
+    "content": "You can do it Alex!"
+  }'
+
+
+// deleting comment
+curl -X DELETE http://localhost:3000/comment \
+  -H "Content-Type: application/json" \
+  -H "Cookie: connect.sid=s%3AX0GBlGJXmUhKBdZp9sUDS75tHPDXVN0v.0A0DgWYevzbkYTGuFu5qiiu5S9lMjxTxFffYu5VyHZQ" \
+  -d '{
+    "comment_id": 5
+  }'
+
 
 
 // for nehimomo
@@ -52,6 +74,9 @@ curl -X POST http://localhost:3000/creategym \
     "name": "9D Alexandria",
     "location": "Alexandria near Mascot"
   }'
+
+
+
 
 
   ///// SAMPLE REQ FORMAT //////

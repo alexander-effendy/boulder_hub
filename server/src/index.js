@@ -107,6 +107,7 @@ const passport = require('passport');
 const dotenv = require('dotenv');
 const auth = require('./auth'); // Import the auth routes
 const pool = require('../db'); // Import your PostgreSQL pool configuration
+const { append } = require('vary');
 
 dotenv.config();
 
@@ -131,7 +132,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use('/auth', auth); // Use the auth routes
+app.use('/auth', auth); // use this first
 
 app.get('/', (req, res) => {
   res.send('Welcome to the Boulder Hub app!');
@@ -151,33 +152,33 @@ app.get('/profile', (req, res) => {
   }
 });
 
+app.get('/alluser', (req, res) => {
+  if (req.isAuthenticated()) {
+    const query = 'SELECT * FROM Users';
+    pool.query(query, (err, result) => {
+      if (err) {
+        return res.status(500).send('Error in retrieving users');
+      }
+      res.status(200).json(result.rows);
+    })
+  } else {
+    res.status(401).send('Unauthorized');
+  }
+})
+
 // ---------------------------------------------------------------------- //
-// -------------------------------- GYM -------------------------------- //
+// -------------------------------- GYM --------------------------------- //
 // ---------------------------------------------------------------------- //
 
-// app.post('/creategym', (req, res) => {
-//   if (req.isAuthenticated()) {
-//     const { name, location } = req.body;
-//     if (!name || !location) return res.status(400).send('Name and location are required');
+app.post('/gym', (req, res) => {
+  console.log('here is req: ', req);
 
-//     const query = 'INSERT INTO Gyms (name, location) VALUES ($1, $2) RETURNING *';
-//     pool.query(query, [name, location], (err, result) => {
-//       if (err) {
-//         console.error(err);
-//         return res.status(500).send('Error creating gym');
-//       }
-//       return res.status(201).json(result.rows[0]);
-//     });
-
-//     res.json(req.user);
-//   } else {
-//     return res.status(401).send('Unauthorized');
-//   }
-// });
-
-app.post('/creategym', (req, res) => {
   if (!req.isAuthenticated()) {
     return res.status(401).send('Unauthorized');
+  }
+
+  if (req.user.role !== 'admin') {
+    return res.status(403).send('Forbidden: Only admins can create gyms');
   }
 
   const { name, location } = req.body;
@@ -193,6 +194,59 @@ app.post('/creategym', (req, res) => {
       return res.status(500).send('Error creating gym');
     }
     res.status(201).json(result.rows[0]);
+  });
+});
+
+// ---------------------------------------------------------------------- //
+// ------------------------------ BOULDER ------------------------------- //
+// ---------------------------------------------------------------------- //
+
+app.post('/boulder', (req, res) => {
+  if (!req.isAuthenticated()) {
+    return res.status(401).send('Unauthorized');
+  }
+
+  if (req.user.role !== 'admin') {
+    return res.status(403).send('Forbidden: Only admins can create gyms');
+  }
+
+  const { gym_id, color, grade, description } = req.body;
+  if (!gym_id || !color || !grade) {
+    return res.status(400).send('WARNING: All inputs need to be filled in');
+  }
+
+  const query = 'INSERT INTO boulders (gym_id, color, grade, description) VALUES ($1, $2, $3, $4) RETURNING *';
+  pool.query(query, [gym_id, color, grade, description], (err, result) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).send('Error adding boulder into the gym');
+    }
+    res.status(201).json(result.rows[0]);
+  });
+});
+
+app.delete('/boulder', (req, res) => {
+  if (!req.isAuthenticated()) {
+    return res.status(401).send('Unauthorized');
+  }
+
+  if (req.user.role !== 'admin') {
+    return res.status(403).send('Forbidden: Only admins can create gyms');
+  }
+
+  const { boulder_id } = req.body;
+
+  if (!boulder_id) {
+    return res.status(400).send('WARNING: Boulder id to be deleted cannot be found');
+  }
+
+  const query = 'DELETE FROM boulders where boulder_id = $1';
+  pool.query(query, [boulder_id], (err, result) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).send('Error removing boulder from the gym');
+    }
+    res.status(200).send('Boulder removed successfully');
   });
 });
 

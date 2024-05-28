@@ -1,14 +1,188 @@
-connect.sid=s%3AG79ruUzPfV3cEZsBzDc874RiGEhM2B9C.v3Ji8jXAeuoDhUIr7IZoEw4OLUXqQ%2FVFlTkScOSTyps
+s%3AtDYSa-SRBunczIZU6aFcWobBlFE1dtrx.9JRq0ngSv8WFC%2B7mW%2FgV4UGXMH3qoZu4gQL845uE45U
 
 
 curl -X GET http://localhost:3000/profile \
-  -H "Cookie: connect.sid=s%3AG79ruUzPfV3cEZsBzDc874RiGEhM2B9C.v3Ji8jXAeuoDhUIr7IZoEw4OLUXqQ%2FVFlTkScOSTyps"
+  -H "Cookie: connect.sid=s%3AtDYSa-SRBunczIZU6aFcWobBlFE1dtrx.9JRq0ngSv8WFC%2B7mW%2FgV4UGXMH3qoZu4gQL845uE45U"
+
+
+curl -X POST http://localhost:3000/gym \
+  -H "Content-Type: application/json" \
+  -H "Cookie: connect.sid=s%3AtDYSa-SRBunczIZU6aFcWobBlFE1dtrx.9JRq0ngSv8WFC%2B7mW%2FgV4UGXMH3qoZu4gQL845uE45U" \
+  -d '{
+    "name": "9D Parramatta",
+    "location": "Parramatta near Burwood"
+  }'
+
+add boulder into gym:
+
+curl -X POST http://localhost:3000/boulder \
+  -H "Content-Type: application/json" \
+  -H "Cookie: connect.sid=s%3AtDYSa-SRBunczIZU6aFcWobBlFE1dtrx.9JRq0ngSv8WFC%2B7mW%2FgV4UGXMH3qoZu4gQL845uE45U" \
+  -d '{
+    "gym_id": 1,
+    "color": "Purple",
+    "grade": "V6",
+    "description": "Alex will send this tomorrow"
+  }'
+
+curl -X DELETE http://localhost:3000/boulder \
+  -H "Content-Type: application/json" \
+  -H "Cookie: connect.sid=s%3AtDYSa-SRBunczIZU6aFcWobBlFE1dtrx.9JRq0ngSv8WFC%2B7mW%2FgV4UGXMH3qoZu4gQL845uE45U" \
+  -d '{
+    "boulder_id": 1
+  }'
+
+
+// for nehimomo
+
+s%3Aj8qzQMFAfX094LlMJ0CFeiut9WGnY7-A.qnGG6tkNckmT5kJYw1KdexgDQsbYYcxJC6%2BefT6CmyI
+
+
+connect.sid=s%3Aj8qzQMFAfX094LlMJ0CFeiut9WGnY7-A.qnGG6tkNckmT5kJYw1KdexgDQsbYYcxJC6%2BefT6CmyI
+
+
+curl -X GET http://localhost:3000/profile \
+  -H "Cookie: connect.sid=s%3Aj8qzQMFAfX094LlMJ0CFeiut9WGnY7-A.qnGG6tkNckmT5kJYw1KdexgDQsbYYcxJC6%2BefT6CmyI"
 
 
 curl -X POST http://localhost:3000/creategym \
   -H "Content-Type: application/json" \
-  -H "Cookie: connect.sid=s%3AG79ruUzPfV3cEZsBzDc874RiGEhM2B9C.v3Ji8jXAeuoDhUIr7IZoEw4OLUXqQ%2FVFlTkScOSTyps" \
+  -H "Cookie: connect.sid=s%3Aj8qzQMFAfX094LlMJ0CFeiut9WGnY7-A.qnGG6tkNckmT5kJYw1KdexgDQsbYYcxJC6%2BefT6CmyI" \
   -d '{
     "name": "9D Alexandria",
     "location": "Alexandria near Mascot"
   }'
+
+
+  ///// SAMPLE REQ FORMAT //////
+
+
+  body: { name: '9D Alexandria', location: 'Alexandria near Mascot' },
+  _body: true,
+  length: undefined,
+  _eventsCount: 0,
+  _parsedOriginalUrl: Url {
+    protocol: null,
+    slashes: null,
+    auth: null,
+    host: null,
+    port: null,
+    hostname: null,
+    hash: null,
+    search: null,
+    query: null,
+    pathname: '/creategym',
+    path: '/creategym',
+    href: '/creategym',
+    _raw: '/creategym'
+  },
+  sessionStore: MemoryStore {
+    _events: [Object: null prototype] {
+      disconnect: [Function: ondisconnect],
+      connect: [Function: onconnect]
+    },
+    _eventsCount: 2,
+    _maxListeners: undefined,
+    sessions: [Object: null prototype] {
+      'j8qzQMFAfX094LlMJ0CFeiut9WGnY7-A': '{"cookie":{"originalMaxAge":null,"expires":null,"secure":false,"httpOnly":true,"path":"/"},"passport":{"user":2}}'
+    },
+    generate: [Function (anonymous)],
+    [Symbol(shapeMode)]: false,
+    [Symbol(kCapture)]: false
+  },
+  sessionID: 'j8qzQMFAfX094LlMJ0CFeiut9WGnY7-A',
+  session: Session {
+    cookie: {
+      path: '/',
+      _expires: null,
+      originalMaxAge: null,
+      httpOnly: true,
+      secure: false
+    },
+    passport: { user: 2 }
+  },
+  logIn: [Function (anonymous)],
+  login: [Function (anonymous)],
+  logOut: [Function (anonymous)],
+  logout: [Function (anonymous)],
+  isAuthenticated: [Function (anonymous)],
+  isUnauthenticated: [Function (anonymous)],
+  _sessionManager: SessionManager {
+    _key: 'passport',
+    _serializeUser: [Function: bound ]
+  },
+  _passport: {
+    instance: Authenticator {
+      _key: 'passport',
+      _strategies: [Object],
+      _serializers: [Array],
+      _deserializers: [Array],
+      _infoTransformers: [],
+      _framework: [Object],
+      _sm: [SessionManager],
+      Authenticator: [Function: Authenticator],
+      Passport: [Function: Authenticator],
+      Strategy: [Function],
+      strategies: [Object],
+      _userProperty: 'user'
+    }
+  },
+
+  user: {
+    user_id: 2,
+    oauth_id: '106811074811887973169',
+    username: 'Nehimomo You',
+    email: 'nehimomoyou@gmail.com',
+    role: 'user',
+    created_at: 2024-05-28T10:27:17.035Z
+  },
+
+  db: BoundPool {
+    _events: [Object: null prototype] {},
+    _eventsCount: 0,
+    _maxListeners: undefined,
+    options: {
+      user: 'alexandereffendy',
+      host: 'localhost',
+      database: 'boulder_hub',
+      port: '5432',
+      max: 10,
+      maxUses: Infinity,
+      allowExitOnIdle: false,
+      maxLifetimeSeconds: 0,
+      idleTimeoutMillis: 10000
+    },
+
+    log: [Function (anonymous)],
+    Client: [class Client extends EventEmitter] {
+      Query: [class Query extends EventEmitter]
+    },
+    Promise: [Function: Promise],
+    _clients: [ [Client] ],
+    _idle: [ [IdleItem] ],
+    _expired: WeakSet { <items unknown> },
+    _pendingQueue: [],
+    _endCallback: undefined,
+    ending: false,
+    ended: false,
+    [Symbol(shapeMode)]: false,
+    [Symbol(kCapture)]: false
+  },
+  route: Route {
+    path: '/creategym',
+    stack: [ [Layer] ],
+    methods: { post: true }
+  },
+  [Symbol(shapeMode)]: true,
+  [Symbol(kCapture)]: false,
+  [Symbol(kHeaders)]: {
+    host: 'localhost:3000',
+    'user-agent': 'curl/8.1.2',
+    accept: '*/*',
+    'content-type': 'application/json',
+    cookie: 'connect.sid=s%3Aj8qzQMFAfX094LlMJ0CFeiut9WGnY7-A.qnGG6tkNckmT5kJYw1KdexgDQsbYYcxJC6%2BefT6CmyI',
+    'content-length': '75'
+  },
+  [Symbol(kHeadersCount)]: 12,
+  [Symbol(kTrailers)]: null,
+  [Symbol

@@ -1,7 +1,10 @@
+import { Navbar } from "@/components/Navbar"
 function LandingPage() {
   return (
     <>
-      <h1>Landing Page for Boulder Hub</h1>
+      <div className="h-screen bg-gradient-to-r from-cyan-500 to-blue-500">
+        <Navbar/> 
+      </div>
     </>
   )
 }

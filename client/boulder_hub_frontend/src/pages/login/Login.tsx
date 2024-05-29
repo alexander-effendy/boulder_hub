@@ -10,7 +10,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 
-function App() {
+function Login() {
   return (
     <Card className="w-full max-w-sm">
       <CardHeader>
@@ -36,4 +36,4 @@ function App() {
   )
 }
 
-export default App
+export default Login
